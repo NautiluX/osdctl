@@ -1,6 +1,7 @@
 package federatedrole
 
 import (
+	"github.com/openshift/osdctl/pkg/k8s"
 	"github.com/spf13/cobra"
 	"k8s.io/cli-runtime/pkg/genericclioptions"
 )
@@ -15,7 +16,11 @@ func NewCmdFederatedRole(streams genericclioptions.IOStreams, flags *genericclio
 		Run:               help,
 	}
 
-	getCmd.AddCommand(newCmdApply(streams, flags))
+	client, err := k8s.NewClient(flags)
+	if err != nil {
+		panic(err)
+	}
+	getCmd.AddCommand(newCmdApply(streams, flags, client))
 
 	return getCmd
 }
