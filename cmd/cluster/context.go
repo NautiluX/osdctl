@@ -632,6 +632,7 @@ func GetPDServiceID(baseDomain string, usertoken string, oauthtoken string, team
 
 	pdClient, err := GetPagerdutyClient(usertoken, oauthtoken)
 	if err != nil {
+<<<<<<< Updated upstream
 		return nil, fmt.Errorf("failed to GetPagerdutyClient: %w", err)
 	}
 
@@ -639,6 +640,12 @@ func GetPDServiceID(baseDomain string, usertoken string, oauthtoken string, team
 	teams := getPDTeamIDs(team_ids)
 
 	lsResponse, err := pdClient.ListServicesWithContext(context.TODO(), pd.ListServiceOptions{Query: baseDomain, TeamIDs: teams})
+=======
+		fmt.Printf("Failed to initialize PD client: %q\n", err)
+		return "", err
+	}
+	lsResponse, err := pdClient.ListServicesWithContext(ctx, pd.ListServiceOptions{Query: baseDomain})
+>>>>>>> Stashed changes
 
 	if err != nil {
 		fmt.Printf("Failed to ListServicesWithContext %q\n", err)
